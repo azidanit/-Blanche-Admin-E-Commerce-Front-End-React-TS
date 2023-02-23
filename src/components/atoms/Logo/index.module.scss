@@ -1,4 +1,4 @@
-@import '../../../styles/variables.scss';
+@use '../../../styles/variables.scss' as *;
 .logo {
   font-family: 'Comfortaa', sans-serif;
   font-weight: 700;
@@ -22,14 +22,34 @@
   }
 }
 
+.extrasmall {
+  width: 150px;
+  display: block;
+  img {
+    width: 100%;
+  }
+}
+
 .small {
-  font-size: 1.5rem;
+  width: 200px;
+  display: block;
+  img {
+    width: 100%;
+  }
 }
 
 .medium {
-  font-size: 2rem;
+  width: 250px;
+  display: block;
+  img {
+    width: 100%;
+  }
 }
 
 .large {
-  font-size: 3rem;
+  width: 500px;
+  display: block;
+  img {
+    width: 100%;
+  }
 }

@@ -9,7 +9,7 @@ const Logo: React.FC<LogoProps> = ({ size = 'small', type = 'primary' }) => {
 
   return (
     <Link to="/" className={classProps}>
-      blanche
+      <img src="/assets/png/logo-full.png" alt="" />
     </Link>
   );
 };
