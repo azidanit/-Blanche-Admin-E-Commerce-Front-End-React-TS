@@ -18,10 +18,10 @@ const CardCouponType: React.FC = () => {
           imageClassName={style.form__voucher__item__type__img}
         />
         <div className={style.form__voucher__item__type__desc}>
-          <p>Merchant Voucher</p>
+          <p>Marketplace Voucher</p>
           <p>
-            Merchant voucher is a voucher that can be used for all products in
-            your store.
+            Marketplace voucher is a voucher that can be used by all user in
+            your marketplace.
           </p>
         </div>
       </div>
