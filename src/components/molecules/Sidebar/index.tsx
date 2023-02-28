@@ -1,8 +1,4 @@
-import {
-  UploadOutlined,
-  UserOutlined,
-  VideoCameraOutlined,
-} from '@ant-design/icons';
+import { UserOutlined } from '@ant-design/icons';
 import React from 'react';
 import { Menu } from '../..';
 import style from './index.module.scss';
@@ -20,7 +16,11 @@ const items = [
     icon: <UserOutlined />,
     label: <Link to="/">Home</Link>,
   },
-  
+  {
+    key: '2',
+    icon: <UserOutlined />,
+    label: <Link to="/promotions">Promotion</Link>,
+  },
 ];
 const { Sider } = Layout;
 

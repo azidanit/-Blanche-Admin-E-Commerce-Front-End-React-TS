@@ -1,28 +1,27 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button, Card } from '../../../atoms';
-import TableVoucher from '../TableVoucher';
+import TablePromotion from '../TablePromotion';
 import style from './index.module.scss';
 
-const VoucherList: React.FC = () => {
+const PromotionList: React.FC = () => {
   const navigate = useNavigate();
 
   const handleNavigate = () => {
-    navigate('/vouchers/create');
+    navigate('/promotions/create');
   };
 
   return (
-    <Card className={style.voucher__list}>
-      <div className={style.voucher__list__header}>
-        <h6>List Of my Voucher</h6>
+    <Card className={style.promotion__list}>
+      <div className={style.promotion__list__header}>
+        <h6>List Of My Promotions</h6>
         <Button type="primary" size="large" onClick={handleNavigate}>
-          Create Coupon
+          Create Promotion
         </Button>
       </div>
-      <TableVoucher />
-      <p>hhahahha</p>
+      <TablePromotion />
     </Card>
   );
 };
 
-export default VoucherList;
+export default PromotionList;

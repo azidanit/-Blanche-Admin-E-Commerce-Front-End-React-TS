@@ -4,16 +4,14 @@ import ProtectedPage from '../../components/layouts/Auth/ProtectedPage';
 import AdminLayout from '../../components/layouts/Admin/AdminLayout';
 
 const Voucher = lazy(() => import('../../pages/Voucher/VoucherList'));
-const AddVoucher = lazy(
-  () => import('../../pages/Voucher/AddVoucher'),
-);
-
+const AddVoucher = lazy(() => import('../../pages/Voucher/AddVoucher'));
+const Promotion = lazy(() => import('../../pages/Promotion/PromotionList'));
+const AddPromotion = lazy(() => import('../../pages/Promotion/AddPromotion'));
 
 export const router = createBrowserRouter([
   {
     element: <AdminLayout />,
     children: [
-     
       {
         path: '/',
         element: <Voucher />,
@@ -23,9 +21,14 @@ export const router = createBrowserRouter([
         path: '/vouchers/create',
         element: <AddVoucher />,
       },
-
-     
+      {
+        path: '/promotions',
+        element: <Promotion />,
+      },
+      {
+        path: '/promotions/create',
+        element: <AddPromotion />,
+      },
     ],
   },
- 
 ]);
