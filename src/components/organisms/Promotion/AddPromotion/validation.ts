@@ -2,39 +2,29 @@ export const rules = {
   name: [
     {
       required: true,
-      message: 'Please input voucher name',
+      message: 'Please input promotion name',
     },
     {
       min: 3,
-      message: 'Voucher name must be at least 3 characters',
+      message: 'Promotion name must be at least 3 characters',
     },
     {
-      max: 5,
-      message: 'Voucher name must be at most 5 characters',
-    },
-  ],
-  period: [
-    {
-      required: true,
-      message: 'Please input voucher period',
+      max: 32,
+      message: 'Promotion name must be at most 5 characters',
     },
   ],
-  amount: [
+  description: [
     {
       required: true,
-      message: 'Please input voucher amount',
+      message: 'Please input promotion description',
     },
-  ],
-  minimum: [
     {
-      required: true,
-      message: 'Please input voucher minimum',
+      min: 3,
+      message: 'Promotion description must be at least 3 characters',
     },
-  ],
-  quota: [
     {
-      required: true,
-      message: 'Please input voucher quota',
+      max: 75,
+      message: 'Promotion description must be at most 75 characters',
     },
   ],
 };
