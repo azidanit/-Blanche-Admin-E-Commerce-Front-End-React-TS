@@ -1,5 +1,3 @@
-import { IMerchantInfo } from './merchant.interface';
-
 export interface IUser {
   id?: number;
   fullname?: string;
@@ -107,33 +105,6 @@ export interface ICategoryProduct {
   url: string;
 }
 
-export interface IProductDetail {
-  id: number;
-  merchant_id: number;
-  category_id: number;
-  title: string;
-  min_real_price: number;
-  max_real_price: number;
-  min_discount_price: number;
-  is_my_product: boolean;
-  max_discount_price: number;
-  category: ICategoryProduct;
-  images: string[];
-  is_used: boolean;
-  SKU: string;
-  description: string;
-  favorite_count: number;
-  is_favorited: boolean;
-  unit_sold: number;
-  total_stock: number;
-  is_archived: boolean;
-  rating: IRating;
-  weight: number;
-  dimension: IDimension;
-  variants: IVariant;
-  merchant: IMerchantInfo;
-}
-
 export interface IProduct {
   id: number;
   title: string;
@@ -180,30 +151,6 @@ export interface IVariantItem {
 export interface IVariant {
   variant_options: IVariantOption[];
   variant_items: IVariantItem[];
-}
-
-export interface IProductDetail {
-  id: number;
-  title: string;
-  min_real_price: number;
-  max_real_price: number;
-  min_discount_price: number;
-  max_discount_price: number;
-  category: ICategoryProduct;
-  images: string[];
-  is_used: boolean;
-  SKU: string;
-  description: string;
-  favorite_count: number;
-  is_favorited: boolean;
-  unit_sold: number;
-  total_stock: number;
-  is_archived: boolean;
-  avg_rating: number;
-  weight: number;
-  dimension: IDimension;
-  variants: IVariant;
-  merchant: IMerchantInfo;
 }
 
 export interface ICity {

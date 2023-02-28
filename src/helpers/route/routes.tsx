@@ -5,8 +5,13 @@ import AdminLayout from '../../components/layouts/Admin/AdminLayout';
 
 const Voucher = lazy(() => import('../../pages/Voucher/VoucherList'));
 const AddVoucher = lazy(() => import('../../pages/Voucher/AddVoucher'));
+const DuplicateVoucher = lazy(
+  () => import('../../pages/Voucher/DuplicateVoucher'),
+);
+const EditVoucher = lazy(() => import('../../pages/Voucher/EditVoucher'));
 const Promotion = lazy(() => import('../../pages/Promotion/PromotionList'));
 const AddPromotion = lazy(() => import('../../pages/Promotion/AddPromotion'));
+const Login = lazy(() => import('../../pages/Auth/Login'));
 
 export const router = createBrowserRouter([
   {
@@ -18,8 +23,21 @@ export const router = createBrowserRouter([
         children: [],
       },
       {
+        path: '/vouchers',
+        element: <Voucher />,
+        children: [],
+      },
+      {
         path: '/vouchers/create',
         element: <AddVoucher />,
+      },
+      {
+        path: '/vouchers/copy/:code',
+        element: <DuplicateVoucher />,
+      },
+      {
+        path: '/vouchers/edit/:code',
+        element: <EditVoucher />,
       },
       {
         path: '/promotions',
@@ -30,5 +48,10 @@ export const router = createBrowserRouter([
         element: <AddPromotion />,
       },
     ],
+  },
+
+  {
+    path: '/login',
+    element: <Login />,
   },
 ]);
