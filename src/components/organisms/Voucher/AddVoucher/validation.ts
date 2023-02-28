@@ -1,5 +1,5 @@
 export const rules = {
-  name: [
+  code: [
     {
       required: true,
       message: 'Please input voucher name',
@@ -19,13 +19,17 @@ export const rules = {
       message: 'Please input voucher period',
     },
   ],
-  amount: [
+  discount_percentage: [
     {
       required: true,
-      message: 'Please input voucher amount',
+      message: 'Please input voucher discount percentage',
+    },
+    {
+      pattern: new RegExp(/^[0-9]*$/),
+      message: 'Voucher discount percentage must be a number',
     },
   ],
-  minimum: [
+  min_order_nominal: [
     {
       required: true,
       message: 'Please input voucher minimum',
@@ -35,6 +39,12 @@ export const rules = {
     {
       required: true,
       message: 'Please input voucher quota',
+    },
+  ],
+  max_discount_nominal: [
+    {
+      required: true,
+      message: 'Please input voucher maximum discount',
     },
   ],
 };

@@ -1,8 +1,7 @@
-import { DatePicker, RadioChangeEvent } from 'antd';
-import dayjs, { Dayjs } from 'dayjs';
+import { RadioChangeEvent } from 'antd';
 import React from 'react';
 import { RadioButtonGroup } from '../../..';
-import { Card, FormLabel, Input, InputNumber } from '../../../atoms';
+import { Card, FormLabel, InputNumber } from '../../../atoms';
 import style from './index.module.scss';
 import { rules } from './validation';
 
@@ -29,16 +28,30 @@ const CardCouponSettings: React.FC = () => {
         <FormLabel
           className={style.form__item}
           label="Discount Amount"
-          name="amount"
-          rules={rules.amount}
+          name="discount_percentage"
+          rules={rules.discount_percentage}
         >
-          <InputNumber className={style.form__item__input} addonBefore={'Rp'} />
+          <InputNumber
+            className={style.form__item__input}
+            addonAfter={'%'}
+            min={1}
+            max={100}
+          />
         </FormLabel>
         <FormLabel
           className={style.form__item}
-          label="Minimum Purchase"
-          name="minimum"
-          rules={rules.minimum}
+          label="Minimum Purchase Amount"
+          name="min_order_nominal"
+          rules={rules.min_order_nominal}
+        >
+          <InputNumber className={style.form__item__input} addonBefore={'Rp'} />
+        </FormLabel>
+
+        <FormLabel
+          className={style.form__item}
+          label="Maximum Discount Amount"
+          name="max_discount_nominal"
+          rules={rules.max_discount_nominal}
         >
           <InputNumber className={style.form__item__input} addonBefore={'Rp'} />
         </FormLabel>

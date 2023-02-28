@@ -1,11 +1,17 @@
 import { DatePicker } from 'antd';
 import dayjs, { Dayjs } from 'dayjs';
 import React from 'react';
+import { useAppSelector } from '../../../../app/hooks';
 import { Card, FormLabel, Input } from '../../../atoms';
 import style from './index.module.scss';
+import useForms from './useForm';
 import { rules } from './validation';
 
-const CardCouponInfo: React.FC = () => {
+interface CardCouponInfoProps {
+  isEdit: boolean;
+}
+
+const CardCouponInfo: React.FC<CardCouponInfoProps> = ({ isEdit }) => {
   const { RangePicker } = DatePicker;
 
   const rangePresets: {
@@ -17,17 +23,7 @@ const CardCouponInfo: React.FC = () => {
     { label: 'Last 30 Days', value: [dayjs().add(-30, 'd'), dayjs()] },
     { label: 'Last 90 Days', value: [dayjs().add(-90, 'd'), dayjs()] },
   ];
-  const onRangeChange = (
-    dates: null | (Dayjs | null)[],
-    dateStrings: string[],
-  ) => {
-    if (dates) {
-      console.log('From: ', dates[0], ', to: ', dates[1]);
-      console.log('From: ', dateStrings[0], ', to: ', dateStrings[1]);
-    } else {
-      console.log('Clear');
-    }
-  };
+
   return (
     <Card className={style.form__voucher__item}>
       <div className={style.form__voucher__item__header}>
@@ -37,14 +33,15 @@ const CardCouponInfo: React.FC = () => {
       </div>
       <div className={style.form}>
         <FormLabel
-          name="name"
+          name="code"
           label="Voucher Name"
-          rules={rules.name}
+          rules={rules.code}
           className={style.form__item}
         >
           <Input
             type="text"
             addonBefore={'BLANCHE'}
+            disabled={isEdit}
             className={style.form__item__input}
           />
         </FormLabel>
@@ -60,8 +57,14 @@ const CardCouponInfo: React.FC = () => {
             showTime
             className={style.form__item__input}
             format="YYYY/MM/DD HH:mm:ss"
-            onChange={onRangeChange}
             size="large"
+            disabledDate={(current) => {
+              if (isEdit) {
+                return false;
+              }
+
+              return current && current < dayjs().startOf('day');
+            }}
           />
         </FormLabel>
       </div>

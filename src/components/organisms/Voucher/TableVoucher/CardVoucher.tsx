@@ -1,22 +1,44 @@
 import React from 'react';
-import { Image } from '../../../atoms';
+import { toRupiah } from '../../../../helpers/toRupiah';
+import { Button, Image } from '../../../atoms';
+import VoucherDetailModal from '../VoucherDetail';
+import { CardVoucherProps } from './CardQuota';
 import style from './index.module.scss';
 
-const CardVoucher: React.FC = () => {
+const CardVoucher: React.FC<CardVoucherProps> = ({ voucher }) => {
+  const [isModalDetailOpen, setIsModalDetailOpen] = React.useState(false);
+
+  const handleOpenModalDetail = () => {
+    setIsModalDetailOpen(true);
+  };
+  const handleCloseModalDetail = () => {
+    setIsModalDetailOpen(false);
+  };
   return (
     <div className={style.table__voucher__cv}>
       <Image
         className={style.table__voucher__cv__img}
         src="/assets/png/voucher.png"
-        alt=""
+        alt={voucher.code}
         imageClassName={style.table__voucher__cv__img__item}
       />
-      <div className={style.table__voucher__cv__info}>
-        <p className={style.table__voucher__cv__info__name}>BLANCHE50</p>
+      <Button
+        type="link"
+        className={style.table__voucher__cv__info}
+        onClick={handleOpenModalDetail}
+      >
+        <p className={style.table__voucher__cv__info__name}>{voucher.code}</p>
         <p className={style.table__voucher__cv__info__desc}>
-          Diskon 10% hingga Rp10.000
+          Discount {voucher.discount_percentage}% up to{' '}
+          {toRupiah(voucher.max_discount_nominal)}
         </p>
-      </div>
+      </Button>
+
+      <VoucherDetailModal
+        isModalOpen={isModalDetailOpen}
+        voucher={voucher}
+        handleCancel={handleCloseModalDetail}
+      />
     </div>
   );
 };
