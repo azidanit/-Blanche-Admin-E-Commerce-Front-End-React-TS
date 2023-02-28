@@ -1,14 +1,17 @@
-import { Space, Table } from 'antd';
+import { message, Space, Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useGetPromotionsQuery } from '../../../../app/features/marketplace/promotionApiSlice';
-import { useAppSelector } from '../../../../app/hooks';
-import { Button, Image, Tag } from '../../../atoms';
-import { Pagination } from '../../../molecules';
+import {
+  useDeletePromotionMutation,
+  useGetPromotionsQuery,
+} from '../../../../app/features/marketplace/promotionApiSlice';
+import { IPromotionBanner } from '../../../../helpers/types/promotion.interface';
+import { Button, Image } from '../../../atoms';
+import { ModalConfirm, Pagination } from '../../../molecules';
 
 interface DataType {
-  key: string;
+  key: number;
   name: string;
   image: React.ReactNode;
   description: string;
@@ -17,9 +20,49 @@ interface DataType {
 const limit = 6;
 
 const TablePromotion: React.FC = () => {
-  const params = useAppSelector((state) => state.params);
-  const navigate = useNavigate();
   const { data: promotions, isLoading } = useGetPromotionsQuery({});
+  const [promotionToDelete, setPromotionToDelete] =
+    React.useState<IPromotionBanner | null>();
+  const [deletePromotion, { isLoading: isLoadingDeletePromotion }] =
+    useDeletePromotionMutation();
+  const [isModalOpen, setIsModalOpen] = React.useState(false);
+
+  const navigate = useNavigate();
+
+  const handleOpenModal = (promotion: IPromotionBanner) => {
+    setIsModalOpen(true);
+    setPromotionToDelete(promotion);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleDeletePromotionByKey = async (id: number) => {
+    const promotion = promotions?.promotion_banners?.find(
+      (item: IPromotionBanner) => item.id === id,
+    );
+    if (promotion) {
+      handleOpenModal(promotion);
+    }
+  };
+
+  const handleNavigateEdit = (id: number) => {
+    navigate(`/promotions/edit/${id}`);
+  };
+
+  const handleDeletePromotion = async () => {
+    if (!promotionToDelete) return;
+
+    try {
+      await deletePromotion(promotionToDelete.id).unwrap();
+      handleCloseModal();
+      message.success('Delete promotion success');
+    } catch (e) {
+      const err = e as Error;
+      message.error(err.message);
+    }
+  };
 
   const columns: ColumnsType<DataType> = [
     {
@@ -39,19 +82,40 @@ const TablePromotion: React.FC = () => {
     },
     {
       title: 'Action',
+      dataIndex: 'action',
       key: 'action',
-      render: (record) => (
-        <Space size="middle" direction="vertical">
-          <Button danger>Delete</Button>
-          <Button>Duplicate</Button>
-          <Button>Update</Button>
-        </Space>
+      width: 100,
+      render: (
+        _,
+        record: {
+          key: React.Key;
+        },
+      ) => (
+        <div>
+          <Space size="middle" direction="vertical">
+            <Button
+              danger
+              block
+              onClick={() => handleDeletePromotionByKey(Number(record.key))}
+            >
+              Delete
+            </Button>
+            <Button
+              type="primary"
+              ghost
+              block
+              onClick={() => handleNavigateEdit(Number(record.key))}
+            >
+              Edit
+            </Button>
+          </Space>
+        </div>
       ),
     },
   ];
   const dataSource: DataType[] | undefined = promotions?.promotion_banners.map(
     (item) => ({
-      key: item.name,
+      key: item.id,
       name: item.name,
       image: <Image src={item.image_url} alt={item.name} />,
       description: item.description,
@@ -77,6 +141,21 @@ const TablePromotion: React.FC = () => {
             />
           </div>
         )}
+
+      <ModalConfirm
+        isModalOpen={isModalOpen}
+        handleCancel={handleCloseModal}
+        closable={true}
+        cancelButton={true}
+        handleOk={() => handleDeletePromotion()}
+        title="Delete Promotion Banner"
+        confirmButtonProps={{
+          danger: true,
+          loading: isLoadingDeletePromotion,
+        }}
+        confirmButtonText="Delete"
+        info="Are you sure want to delete this voucher?"
+      />
     </>
   );
 };

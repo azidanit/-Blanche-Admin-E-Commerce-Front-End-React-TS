@@ -6,7 +6,9 @@ const Promotion: React.FC = () => {
   return (
     <div className={style.Promotion__page}>
       <div className={style.promotion__page__header}>
-        <h3 className={style.promotion__page__header__title}>Promotion List</h3>
+        <h3 className={style.promotion__page__header__title}>
+          Promotion Banner List
+        </h3>
       </div>
       <PromotionList />
     </div>

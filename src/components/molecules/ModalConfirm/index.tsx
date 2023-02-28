@@ -40,6 +40,7 @@ const ModalConfirm: React.FC<ModalConfirmPageProps> = (props) => {
       centered
       className={style.modal__confirm}
       width={width}
+      onCancel={handleCancel}
       footer={null}
     >
       <ModalHeader

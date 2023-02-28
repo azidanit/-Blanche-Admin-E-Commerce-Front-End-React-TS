@@ -30,6 +30,8 @@ export interface FormReturn<T> {
     dates: null | (Dayjs | null)[],
     dateStrings: string[],
   ) => void;
+  file?: File;
+  setFile?: (file: File) => void;
 }
 
 export interface IGetVoucherResponse {

@@ -16,7 +16,7 @@ const PromotionList: React.FC = () => {
       <div className={style.promotion__list__header}>
         <h6>List Of My Promotions</h6>
         <Button type="primary" size="large" onClick={handleNavigate}>
-          Create Promotion
+          Create Promotion Banner
         </Button>
       </div>
       <TablePromotion />
