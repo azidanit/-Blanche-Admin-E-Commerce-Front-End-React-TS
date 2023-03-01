@@ -4,7 +4,7 @@ import { Menu } from '../..';
 import style from './index.module.scss';
 import { Logo, LogoIcon } from '../../atoms';
 import { Layout } from 'antd';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 interface SidebarProps {
   collapsed: boolean;
@@ -12,19 +12,27 @@ interface SidebarProps {
 
 const items = [
   {
-    key: '1',
+    key: '',
     icon: <UserOutlined />,
     label: <Link to="/">Home</Link>,
   },
   {
-    key: '2',
+    key: 'promotions',
     icon: <UserOutlined />,
     label: <Link to="/promotions">Promotion</Link>,
+  },
+  {
+    key: 'vouchers',
+    icon: <UserOutlined />,
+    label: <Link to="/vouchers">Voucher</Link>,
   },
 ];
 const { Sider } = Layout;
 
 const Sidebar: React.FC<SidebarProps> = ({ collapsed }) => {
+  const location = useLocation();
+  const lastPath = location.pathname.split('/').pop();
+
   return (
     <Sider
       trigger={null}
@@ -40,7 +48,7 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed }) => {
       )}
       <Menu
         className={style.sidebar__menu}
-        defaultSelectedKeys={['1']}
+        defaultSelectedKeys={lastPath ? [lastPath] : ['']}
         items={items}
       />
     </Sider>
