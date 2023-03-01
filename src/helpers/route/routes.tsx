@@ -12,6 +12,7 @@ const EditVoucher = lazy(() => import('../../pages/Voucher/EditVoucher'));
 const Promotion = lazy(() => import('../../pages/Promotion/PromotionList'));
 const AddPromotion = lazy(() => import('../../pages/Promotion/AddPromotion'));
 const Login = lazy(() => import('../../pages/Auth/Login'));
+const Dashboard = lazy(() => import('../../pages/Dashboard'));
 const EditPromotion = lazy(() => import('../../pages/Promotion/EditPromotion'));
 
 export const router = createBrowserRouter([
@@ -20,7 +21,7 @@ export const router = createBrowserRouter([
     children: [
       {
         path: '/',
-        element: <Voucher />,
+        element: <Dashboard />,
         children: [],
       },
       {
