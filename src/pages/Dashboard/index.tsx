@@ -1,5 +1,5 @@
 import React from 'react';
-import DashboardPage from '../../components/organisms/DashboardPage/ActiveUsers';
+import { DashboardPage } from '../../components';
 import style from './index.module.scss';
 
 const Dashboard: React.FC = () => {

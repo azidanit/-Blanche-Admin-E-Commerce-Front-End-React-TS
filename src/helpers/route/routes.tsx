@@ -14,6 +14,8 @@ const AddPromotion = lazy(() => import('../../pages/Promotion/AddPromotion'));
 const Login = lazy(() => import('../../pages/Auth/Login'));
 const Dashboard = lazy(() => import('../../pages/Dashboard'));
 const EditPromotion = lazy(() => import('../../pages/Promotion/EditPromotion'));
+const Refund = lazy(() => import('../../pages/Refund'));
+const Messages = lazy(() => import('../../pages/Messages'));
 
 export const router = createBrowserRouter([
   {
@@ -54,11 +56,19 @@ export const router = createBrowserRouter([
         path: '/promotions/edit/:id',
         element: <EditPromotion />,
       },
+      {
+        path: '/refunds',
+        element: <Refund />,
+      },
     ],
   },
 
   {
     path: '/login',
     element: <Login />,
+  },
+  {
+    path: '/refunds/:id/messages',
+    element: <Messages />,
   },
 ]);

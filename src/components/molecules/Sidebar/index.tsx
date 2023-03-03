@@ -26,6 +26,11 @@ const items = [
     icon: <UserOutlined />,
     label: <Link to="/vouchers">Voucher</Link>,
   },
+  {
+    key: 'refund',
+    icon: <UserOutlined />,
+    label: <Link to="/refunds">Refund</Link>,
+  },
 ];
 const { Sider } = Layout;
 

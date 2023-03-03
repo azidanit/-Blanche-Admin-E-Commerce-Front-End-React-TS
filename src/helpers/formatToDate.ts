@@ -6,3 +6,13 @@ export const formatToDate = (date: string): string => {
 
   return `${day}/${month}/${year}`;
 };
+
+export const formatToHourMinute = (date: string): string => {
+  const newDate = new Date(date);
+  const hour = newDate.getHours();
+  const parseHour = hour < 10 ? `0${hour}` : hour;
+  const minute = newDate.getMinutes();
+  const parseMinute = minute < 10 ? `0${minute}` : minute;
+
+  return `${parseHour}:${parseMinute}`;
+};
