@@ -17,6 +17,7 @@ import Popconfirm from './Popconfirm';
 import Menu from './Menu';
 import Countdown from './Countdown';
 import ModalConfirm from './ModalConfirm';
+import Chat from './Chat';
 
 export {
   AuthSectionLeft,
@@ -38,4 +39,5 @@ export {
   Menu,
   Countdown,
   ModalConfirm,
+  Chat,
 };
