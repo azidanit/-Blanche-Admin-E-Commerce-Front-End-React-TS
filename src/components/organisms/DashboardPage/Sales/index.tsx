@@ -2,6 +2,7 @@ import React from 'react';
 import { useGetDashboardSalesQuery } from '../../../../app/features/dashboard/dashboardApiSlice';
 import style from '../index.module.scss';
 import { DualAxes } from '@ant-design/plots';
+import { Empty } from 'antd';
 
 interface SalesProps {
   date: {
@@ -16,6 +17,16 @@ const Sales: React.FC<SalesProps> = ({ date }) => {
   const config = {
     xField: 'date',
     yField: ['rev', 'trx'],
+    meta: {
+      rev: {
+        min: 0,
+        alias: 'Revenue',
+      },
+      trx: {
+        min: 0,
+        alias: 'Number of Transactions',
+      },
+    },
     geometryOptions: [
       {
         geometry: 'column',
@@ -39,7 +50,11 @@ const Sales: React.FC<SalesProps> = ({ date }) => {
           has received for the last 30 days.
         </p>
       </div>
-      {data && <DualAxes loading={isLoading} data={[data, data]} {...config} />}
+      {data ? (
+        <DualAxes loading={isLoading} data={[data, data]} {...config} />
+      ) : (
+        <Empty description="We are still working on your data. Please comeback later." />
+      )}
     </div>
   );
 };
