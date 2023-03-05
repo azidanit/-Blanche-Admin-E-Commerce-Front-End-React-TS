@@ -30,6 +30,7 @@ export interface IRefundStatus {
   rejected_by_seller_at?: string;
   accepted_by_admin_at?: string;
   rejected_by_admin_at?: string;
+  closed_at?: string;
 }
 
 export interface IMessage {
@@ -54,6 +55,7 @@ export interface IRefundMessageDetails {
 export interface IRefundMessageResponse {
   messages: IMessage[];
   details: IRefundMessageDetails;
+  refund_request_status: IRefundStatus[];
 }
 
 export interface IPostRefundMessageRequest {

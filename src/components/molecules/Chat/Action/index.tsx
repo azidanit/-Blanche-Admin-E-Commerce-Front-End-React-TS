@@ -1,5 +1,5 @@
 import { message } from 'antd';
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import {
   useAcceptRefundRequestMutation,
@@ -8,15 +8,35 @@ import {
 import { capitalizeFirstLetter } from '../../../../helpers/capitalizeFirstLetter';
 import { IErrorResponse } from '../../../../helpers/types/response.interface';
 import { Button } from '../../../atoms';
+import ModalConfirm from '../../ModalConfirm';
 import style from './index.module.scss';
 
 const Action: React.FC = () => {
   const params = useParams();
   const navigate = useNavigate();
+  const [isModalAcceptOpen, setIsModalAcceptOpen] = useState(false);
+  const [isModalRejectOpen, setIsModalRejectOpen] = useState(false);
+
   const [accept, { isLoading: isLoadingAccept }] =
     useAcceptRefundRequestMutation();
   const [reject, { isLoading: isLoadingReject }] =
     useRejectRefundRequestMutation();
+
+  const handleOpenModalAccept = () => {
+    setIsModalAcceptOpen(true);
+  };
+
+  const handleCloseModalAccept = () => {
+    setIsModalAcceptOpen(false);
+  };
+
+  const handleOpenModalReject = () => {
+    setIsModalRejectOpen(true);
+  };
+
+  const handleCloseModalReject = () => {
+    setIsModalRejectOpen(false);
+  };
 
   const handleAccept = async () => {
     try {
@@ -46,7 +66,7 @@ const Action: React.FC = () => {
       <div className={style.action__group}>
         <Button
           type="primary"
-          onClick={handleAccept}
+          onClick={handleOpenModalAccept}
           loading={isLoadingAccept}
           ghost
         >
@@ -54,13 +74,34 @@ const Action: React.FC = () => {
         </Button>
         <Button
           type="primary"
-          onClick={handleReject}
+          onClick={handleOpenModalReject}
           loading={isLoadingReject}
           ghost
           danger
         >
           Reject
         </Button>
+        <ModalConfirm
+          isModalOpen={isModalRejectOpen}
+          title="Reject Refund"
+          info="Are you sure you want to reject this refund request?"
+          handleOk={handleReject}
+          handleCancel={handleCloseModalReject}
+          confirmButtonProps={{ danger: true, loading: isLoadingReject }}
+          cancelButton={true}
+          closable={true}
+        />
+
+        <ModalConfirm
+          isModalOpen={isModalAcceptOpen}
+          title="Accept Refund"
+          info="Are you sure you want to accept this refund request?"
+          handleOk={handleAccept}
+          handleCancel={handleCloseModalAccept}
+          cancelButton={true}
+          closable={true}
+          confirmButtonProps={{ loading: isLoadingAccept }}
+        />
       </div>
     </div>
   );

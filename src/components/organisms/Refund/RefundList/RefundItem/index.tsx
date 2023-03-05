@@ -1,15 +1,21 @@
 import { Divider, Image } from 'antd';
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { capitalizeFirstLetter } from '../../../../../helpers/capitalizeFirstLetter';
 import {
   dateToDayMonthStringYear,
   dateToMinuteHourMonthStringDayYear,
 } from '../../../../../helpers/parseDate';
-import { IRefundRequest } from '../../../../../helpers/types/refund.interface';
+import {
+  IGetRefundResponse,
+  IRefundRequest,
+} from '../../../../../helpers/types/refund.interface';
 import { Button, Card, Tag } from '../../../../atoms';
 import style from './index.module.scss';
 import { MdChatBubbleOutline } from 'react-icons/md';
+import ActionOnNeedApprovalAdmin from './ActionBasedOnStatus/ActionOnNeedApprovalMerchant';
+import ActionOnNeedApprovalMerchant from './ActionBasedOnStatus/ActionOnWaitingAdminApproval';
+import ActionOnNeedRejected from './ActionBasedOnStatus/ActionOnRejected';
 
 interface RefundItemProps {
   refund: IRefundRequest;
@@ -20,39 +26,116 @@ const mapStatusToColor = {
   'need approval': 'orange',
   refunded: 'green',
   rejected: 'red',
+  'rejected by admin': 'red',
+  'rejected by seller': 'red',
+  'cancelled by buyer': 'red',
+  'waiting buyer approval': 'blue',
 };
 
-const RefundItem: React.FC<RefundItemProps> = ({ refund }) => {
-  const [status, setStatus] = useState('waiting');
+enum RefundStatus {
+  All = 1,
+  WaitingMerchantAproval = 2,
+  WaitingAdminAproval = 3,
+  Closed = 4,
+  Canceled = 5,
+  Rejected = 6,
+  Refunded = 7,
+  WaitingBuyerApproval = 8,
+}
 
+const RefundItem: React.FC<RefundItemProps> = ({ refund }) => {
+  const MapComponent: {
+    [key: number]: React.ReactNode;
+  } = {
+    [0]: <></>,
+    [RefundStatus.WaitingMerchantAproval]: <ActionOnNeedApprovalMerchant />,
+    [RefundStatus.WaitingAdminAproval]: (
+      <ActionOnNeedApprovalAdmin refund={refund} />
+    ),
+    [RefundStatus.Rejected]: <ActionOnNeedRejected refund={refund} />,
+  };
+  const [status, setStatus] = useState('waiting');
+  const [statusIdx, setStatusIdx] = useState(0);
+
+  const navigate = useNavigate();
+
+  const renderComponent = () => {
+    return MapComponent[statusIdx];
+  };
   useEffect(() => {
-    if (refund.refund_request_statuses.length === 1) {
-      if (
-        refund.refund_request_statuses[0].rejected_by_seller_at &&
-        refund.refund_request_statuses[0].rejected_by_admin_at
-      ) {
-        setStatus('rejected');
-      }
-      if (
-        refund.refund_request_statuses[0].accepted_by_seller_at &&
-        refund.refund_request_statuses[0].accepted_by_admin_at
-      ) {
-        setStatus('refunded');
-      }
-      if (
-        !refund.refund_request_statuses[0].accepted_by_seller_at &&
-        !refund.refund_request_statuses[0].rejected_by_seller_at
-      ) {
-        setStatus('waiting for seller approval');
-      }
-      if (
-        refund.refund_request_statuses[0].accepted_by_admin_at &&
-        !refund.refund_request_statuses[0].rejected_by_admin_at
-      ) {
-        setStatus('need approval');
-      }
+    if (!refund.refund_request_statuses) {
+      return;
     }
-  }, [status, refund]);
+
+    if (refund.refund_request_statuses[0].canceled_by_buyer_at) {
+      setStatus('cancelled by buyer');
+      setStatusIdx(0);
+      return;
+    }
+    if (refund.refund_request_statuses[0].rejected_by_admin_at) {
+      setStatus('rejected by admin');
+      setStatusIdx(RefundStatus.Rejected);
+      return;
+    }
+    if (refund.refund_request_statuses[0].rejected_by_seller_at) {
+      setStatus('rejected by seller');
+      setStatusIdx(RefundStatus.Rejected);
+      return;
+    }
+
+    if (refund.refund_request_statuses[0].rejected_by_admin_at) {
+      setStatus('rejected');
+      setStatusIdx(RefundStatus.Refunded);
+      return;
+    }
+    if (
+      refund.refund_request_statuses[0].rejected_by_admin_at &&
+      refund.refund_request_statuses[0].rejected_by_seller_at &&
+      refund.refund_request_statuses[0].rejected_by_buyer_at
+    ) {
+      setStatus('rejected by buyer');
+      setStatusIdx(RefundStatus.Refunded);
+      return;
+    }
+    if (
+      refund.refund_request_statuses[0].accepted_by_admin_at &&
+      refund.refund_request_statuses[0].accepted_by_buyer_at
+    ) {
+      setStatus('refunded');
+      return;
+    }
+
+    if (
+      refund.refund_request_statuses[0].rejected_by_admin_at &&
+      !refund.refund_request_statuses[0].accepted_by_buyer_at &&
+      !refund.refund_request_statuses[0].rejected_by_buyer_at
+    ) {
+      setStatus('waiting buyer approval');
+      return;
+    }
+
+    if (
+      !refund.refund_request_statuses[0].accepted_by_admin_at &&
+      !refund.refund_request_statuses[0].rejected_by_admin_at &&
+      refund.refund_request_statuses[0].accepted_by_seller_at
+    ) {
+      setStatus('need approval');
+      setStatusIdx(RefundStatus.WaitingAdminAproval);
+      return;
+    }
+    if (
+      !refund.refund_request_statuses[0].accepted_by_seller_at &&
+      !refund.refund_request_statuses[0].rejected_by_seller_at
+    ) {
+      setStatus('waiting for seller approval');
+      setStatusIdx(RefundStatus.WaitingMerchantAproval);
+      return;
+    }
+  }, [status, refund, statusIdx]);
+
+  const handleNavigate = () => {
+    navigate(`/refunds/${refund.id}/messages`);
+  };
 
   return (
     <Card className={style.ti}>
@@ -107,15 +190,14 @@ const RefundItem: React.FC<RefundItemProps> = ({ refund }) => {
       </div>
       <Divider className={style.ti__divider} />
       <div className={style.ti__footer}>
-        <Button type="primary" ghost>
-          Accept
-        </Button>
-        <Button type="primary" ghost danger>
-          Reject
-        </Button>
-        <Button type="primary" className={style.ti__footer__chat}>
+        {renderComponent()}
+        <Button
+          type="primary"
+          onClick={handleNavigate}
+          className={style.ti__footer__chat}
+        >
           <MdChatBubbleOutline />
-          <Link to={`/refunds/${refund.id}/messages`}>Chat</Link>
+          <span>Chat</span>
         </Button>
       </div>
     </Card>

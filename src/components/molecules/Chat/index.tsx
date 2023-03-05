@@ -38,7 +38,11 @@ const Chat: React.FC<ChatProps> = ({ sender_id, data }) => {
   return (
     <div className={style.chat}>
       {data && <Header details={data.details} sender_id={sender_id} />}
-      {!isClosed && <Action />}
+      {!isClosed &&
+        (data.refund_request_status[0].accepted_by_seller_at ||
+          data.refund_request_status[0].rejected_by_seller_at) &&
+        !data.refund_request_status[0].rejected_by_admin_at &&
+        !data.refund_request_status[0].accepted_by_admin_at && <Action />}
       <Typing isClosed={isClosed} />
       {data && messages && (
         <Messages
