@@ -48,7 +48,7 @@ export const router = createBrowserRouter([
         element: <Promotion />,
       },
       {
-        path: '/promotions/create',
+        path: '/promotions/create-banner',
         element: <AddPromotion />,
       },
 
