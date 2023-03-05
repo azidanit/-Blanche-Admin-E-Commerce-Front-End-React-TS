@@ -2,6 +2,7 @@ import React from 'react';
 import { useGetDashboardUserConversionQuery } from '../../../../app/features/dashboard/dashboardApiSlice';
 import style from '../index.module.scss';
 import { Line } from '@ant-design/plots';
+import { Empty } from 'antd';
 
 interface UserConversionsProps {
   date: {
@@ -19,6 +20,7 @@ const UserConversions: React.FC<UserConversionsProps> = ({ date }) => {
     label: {},
     meta: {
       value: {
+        min: 0,
         max: 1,
       },
     },
@@ -58,7 +60,11 @@ const UserConversions: React.FC<UserConversionsProps> = ({ date }) => {
           User conversion rate is the ratio of MTU to MAU for the last 30 days.
         </p>
       </div>
-      {data && <Line loading={isLoading} data={data} {...config} />}
+      {data ? (
+        <Line loading={isLoading} data={data} {...config} />
+      ) : (
+        <Empty description="We are still working on your data. Please comeback later." />
+      )}
     </div>
   );
 };

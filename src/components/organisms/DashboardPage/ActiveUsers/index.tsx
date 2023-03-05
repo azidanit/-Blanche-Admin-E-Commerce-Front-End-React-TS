@@ -2,6 +2,7 @@ import React from 'react';
 import { useGetDashboardActiveUsersQuery } from '../../../../app/features/dashboard/dashboardApiSlice';
 import style from '../index.module.scss';
 import { Area } from '@ant-design/plots';
+import { Empty } from 'antd';
 
 interface ActiveUsersProps {
   date: {
@@ -23,7 +24,7 @@ const ActiveUsers: React.FC<ActiveUsersProps> = ({ date }) => {
           distinct user who transacate for the last 30 days.
         </p>
       </div>
-      {data && (
+      {data ? (
         <Area
           loading={isLoading}
           data={data}
@@ -31,6 +32,8 @@ const ActiveUsers: React.FC<ActiveUsersProps> = ({ date }) => {
           yField="value"
           seriesField="type"
         />
+      ) : (
+        <Empty description="We are still working on your data. Please comeback later." />
       )}
     </div>
   );
