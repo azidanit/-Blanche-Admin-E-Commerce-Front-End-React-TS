@@ -5,7 +5,6 @@ import FilterStatus from '../../FilterStatus';
 import RefundItem from './RefundItem';
 import style from './index.module.scss';
 import { Card } from '../../../atoms';
-import { Divider } from 'antd';
 
 const limit = 10;
 
@@ -17,6 +16,7 @@ const values = [
   'Canceled By User',
   'Rejected',
   'Refunded',
+  'Waiting Buyer Approval',
 ];
 
 const RefundList: React.FC = () => {

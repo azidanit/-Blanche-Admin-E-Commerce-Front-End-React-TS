@@ -18,7 +18,7 @@ import { apiSlice } from '../../api/apiSlice';
 const authApi = apiSlice.injectEndpoints({
   endpoints: (build) => ({
     login: build.mutation<ILoginResponse, ILoginRequest>({
-      query: (body) => ({ url: '/login', method: 'POST', body }),
+      query: (body) => ({ url: '/login/admin', method: 'POST', body }),
       transformResponse: (response: { data: ILoginResponse }) => response.data,
       transformErrorResponse: (response) => response.data,
     }),
