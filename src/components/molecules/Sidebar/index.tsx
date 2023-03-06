@@ -1,4 +1,9 @@
-import { HomeOutlined, TagOutlined, TagsOutlined } from '@ant-design/icons';
+import {
+  HomeOutlined,
+  ReloadOutlined,
+  TagOutlined,
+  TagsOutlined,
+} from '@ant-design/icons';
 import React from 'react';
 import { Menu } from '../..';
 import style from './index.module.scss';
@@ -31,6 +36,8 @@ function getItem(
 
 const items = [
   getItem('Home', '', <HomeOutlined />),
+  { type: 'divider' } as MenuDividerType,
+  getItem('Refunds', 'refunds', <ReloadOutlined />),
   { type: 'divider' } as MenuDividerType,
   getItem('Promotions', 'sub1', <TagOutlined />, [
     getItem('Promotion List', 'promotions'),
