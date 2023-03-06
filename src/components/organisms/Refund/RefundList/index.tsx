@@ -5,6 +5,7 @@ import FilterStatus from '../../FilterStatus';
 import RefundItem from './RefundItem';
 import style from './index.module.scss';
 import { Card } from '../../../atoms';
+import { ItemNotFound } from '../../../molecules';
 
 const limit = 10;
 
@@ -31,9 +32,16 @@ const RefundList: React.FC = () => {
     <Card className={style.refund__list}>
       <FilterStatus values={values} />
       <div className={style.refund__list__body}>
-        {data?.refund_requests.map((item, index) => (
-          <RefundItem refund={item} key={index} />
-        ))}
+        {data?.refund_requests.length !== 0 ? (
+          data?.refund_requests.map((item, index) => (
+            <RefundItem refund={item} key={index} />
+          ))
+        ) : (
+          <ItemNotFound
+            title="You dont have any refund request"
+            body="Refund will appear if when you have a refund."
+          />
+        )}
       </div>
     </Card>
   );

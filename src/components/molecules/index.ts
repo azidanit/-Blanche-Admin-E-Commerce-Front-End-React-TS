@@ -18,6 +18,7 @@ import Menu from './Menu';
 import Countdown from './Countdown';
 import ModalConfirm from './ModalConfirm';
 import Chat from './Chat';
+import ItemNotFound from './ItemNotFound';
 
 export {
   AuthSectionLeft,
@@ -40,4 +41,5 @@ export {
   Countdown,
   ModalConfirm,
   Chat,
+  ItemNotFound,
 };
