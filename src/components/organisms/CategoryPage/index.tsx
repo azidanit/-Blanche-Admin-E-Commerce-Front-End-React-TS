@@ -8,7 +8,7 @@ import {
   useUpdateMarketplaceCategoryMutation,
 } from '../../../app/features/categories/categoriesApi';
 import { Button, FormLabel, Input, Select, Card } from '../../atoms';
-import { Form } from '../../molecules';
+import { Form, ItemNotFound } from '../../molecules';
 import { Form as Aform } from 'antd';
 import style from './index.module.scss';
 import { rules } from './validation';
@@ -67,7 +67,7 @@ const CategoryPage: React.FC = () => {
   const navigate = useNavigate();
   const noParent = level === 1;
 
-  const { data } = useGetCategoriesQuery(
+  const { data, isLoading: isLoadingFetch } = useGetCategoriesQuery(
     { level: level - 1 },
     { skip: noParent || !level },
   );
@@ -135,6 +135,15 @@ const CategoryPage: React.FC = () => {
   useEffect(() => {
     form.resetFields();
   }, [params.id]);
+
+  if (!data && !isLoadingFetch && params.id) {
+    return (
+      <ItemNotFound
+        title="Category Not Found"
+        body="Please check again the category id."
+      />
+    );
+  }
 
   const renderForm = !params.id || categoryData;
   return (
