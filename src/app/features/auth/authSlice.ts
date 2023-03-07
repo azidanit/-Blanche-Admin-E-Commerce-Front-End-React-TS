@@ -1,14 +1,17 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { IGetProfileResponse } from '../../../helpers/types';
+import Cookies from 'universal-cookie';
 
 interface StateProps {
   user: IGetProfileResponse | null;
   isLoggedIn: boolean;
 }
 
+const cookie = new Cookies();
+
 const initialState: StateProps = {
   user: null,
-  isLoggedIn: false,
+  isLoggedIn: cookie.get('is_logged_in'),
 };
 
 export const authSlice = createSlice({
