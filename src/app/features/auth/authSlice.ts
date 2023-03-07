@@ -11,7 +11,7 @@ const cookie = new Cookies();
 
 const initialState: StateProps = {
   user: null,
-  isLoggedIn: cookie.get('is_logged_in'),
+  isLoggedIn: cookie.get('is_admin_logged_in'),
 };
 
 export const authSlice = createSlice({
