@@ -30,16 +30,21 @@ export const dateToDayMonthStringYear = (
   date: Date,
   separator = '-',
 ): string => {
-  return `${date.getUTCDate()}${separator}${
-    months[date.getUTCMonth()]
-  }${separator}${date.getUTCFullYear()}`;
+  return `${date.getDate()}${separator}${
+    months[date.getMonth()]
+  }${separator}${date.getFullYear()}`;
 };
 
 export const dateToMinuteHourMonthStringDayYear = (
   date: Date,
   separator = '-',
 ): string => {
-  return `${date.getUTCDate()}${separator}${
-    months[date.getUTCMonth()]
-  }${separator}${date.getUTCFullYear()} ${date.getUTCHours()}:${date.getUTCMinutes()}`;
+  const newDate = date.getDate();
+  const newMonths = months[date.getMonth()];
+  const newYear = date.getFullYear();
+  const hour = date.getHours();
+  const parseHour = hour < 10 ? `0${hour}` : hour;
+  const minute = date.getMinutes();
+  const parseMinute = minute < 10 ? `0${minute}` : minute;
+  return `${newDate}${separator}${newMonths}${separator}${newYear} ${parseHour}:${parseMinute}`;
 };
