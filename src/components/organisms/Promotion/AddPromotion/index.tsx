@@ -9,7 +9,15 @@ import Upload, {
 } from 'antd/es/upload';
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Form, Button, Input, FormLabel, Card, TextArea } from '../../..';
+import {
+  Form,
+  Button,
+  Input,
+  FormLabel,
+  Card,
+  TextArea,
+  ItemNotFound,
+} from '../../..';
 import {
   useCreatePromotionMutation,
   useGetPromotionBannerByIdQuery,
@@ -120,9 +128,10 @@ const AddPromotion: React.FC<AddPromotionProps> = ({ isEdit = false }) => {
   );
   const [form] = useForm();
 
-  const { data: promotion } = useGetPromotionBannerByIdQuery(Number(id), {
-    skip: !id,
-  });
+  const { data: promotion, isLoading: isLoadingPromotion } =
+    useGetPromotionBannerByIdQuery(Number(id), {
+      skip: !id,
+    });
 
   useEffect(() => {
     if (!promotion) return;
@@ -134,6 +143,15 @@ const AddPromotion: React.FC<AddPromotionProps> = ({ isEdit = false }) => {
 
     setImageUrl(promotion.image_url);
   }, [promotion]);
+
+  if (isEdit && !promotion && !isLoadingPromotion) {
+    return (
+      <ItemNotFound
+        title="Promotion is Not Found"
+        body="Please check again your promotion name."
+      />
+    );
+  }
 
   return (
     <Form className={style.form__promotion} onFinish={handleSubmit} form={form}>

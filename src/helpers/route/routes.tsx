@@ -1,6 +1,5 @@
 import React, { lazy } from 'react';
 import { createBrowserRouter } from 'react-router-dom';
-import ProtectedPage from '../../components/layouts/Auth/ProtectedPage';
 import AdminLayout from '../../components/layouts/Admin/AdminLayout';
 
 const Voucher = lazy(() => import('../../pages/Voucher/VoucherList'));
@@ -18,6 +17,7 @@ const Refund = lazy(() => import('../../pages/Refund'));
 const Messages = lazy(() => import('../../pages/Messages'));
 const Category = lazy(() => import('../../pages/Category'));
 const CategoryList = lazy(() => import('../../pages/CategoryList'));
+const NotFound = lazy(() => import('../../pages/NotFound'));
 
 export const router = createBrowserRouter([
   {
@@ -83,5 +83,9 @@ export const router = createBrowserRouter([
   {
     path: '/refunds/:id/messages',
     element: <Messages />,
+  },
+  {
+    path: '*',
+    element: <NotFound />,
   },
 ]);

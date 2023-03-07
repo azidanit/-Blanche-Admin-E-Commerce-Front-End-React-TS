@@ -1,14 +1,8 @@
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useLoginMutation } from '../../../../app/features/auth/authApiSlice';
-import {
-  setIsLoggedIn,
-  setUser,
-} from '../../../../app/features/auth/authSlice';
-import {
-  useGetProfileQuery,
-  useLazyGetProfileQuery,
-} from '../../../../app/features/profile/profileApiSlice';
+import { setIsLoggedIn } from '../../../../app/features/auth/authSlice';
+
 import { useAppDispatch } from '../../../../app/hooks';
 import { FormReturnAuth, LoginProps } from '../../../../helpers/types';
 

@@ -51,6 +51,7 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed }) => {
   const [logOut, { isLoading }] = useLogoutMutation();
 
   const onClick: MenuProps['onClick'] = (e) => {
+    if (e.key === 'button') return;
     navigate(`/${e.key}`);
   };
 
@@ -78,7 +79,7 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed }) => {
     ]),
     { type: 'divider' } as MenuDividerType,
     {
-      key: '',
+      key: 'button',
       label: (
         <Button
           block

@@ -1,7 +1,4 @@
 import {
-  ICheckEmailResponse,
-  ICheckUsernameResponse,
-  ICheckUsernameRequest,
   ILoginRequest,
   ILoginResponse,
   IRefreshResponse,
