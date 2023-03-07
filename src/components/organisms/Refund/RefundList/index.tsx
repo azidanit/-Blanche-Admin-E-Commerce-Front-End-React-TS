@@ -23,7 +23,7 @@ const values = [
 const RefundList: React.FC = () => {
   const params = useAppSelector((state) => state.params);
 
-  const { data, isLoading } = useGetRefundListQuery({
+  const { data } = useGetRefundListQuery({
     ...params.search,
     limit,
   });

@@ -7,10 +7,13 @@ import {
 import React from 'react';
 import { Menu } from '../..';
 import style from './index.module.scss';
-import { Logo, LogoIcon } from '../../atoms';
+import { Button, Logo, LogoIcon } from '../../atoms';
 import { Layout, MenuProps } from 'antd';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { MenuDividerType } from 'rc-menu/lib/interface';
+import { useLogoutMutation } from '../../../app/features/auth/authApiSlice';
+import { useAppDispatch } from '../../../app/hooks';
+import { logout } from '../../../app/features/auth/authSlice';
 
 interface SidebarProps {
   collapsed: boolean;
@@ -34,21 +37,6 @@ function getItem(
   } as MenuItem;
 }
 
-const items = [
-  getItem('Home', '', <HomeOutlined />),
-  { type: 'divider' } as MenuDividerType,
-  getItem('Refunds', 'refunds', <ReloadOutlined />),
-  { type: 'divider' } as MenuDividerType,
-  getItem('Promotions', 'sub1', <TagOutlined />, [
-    getItem('Promotion List', 'promotions'),
-    getItem('Create Promotion Banner', 'promotions/create-banner'),
-  ]),
-  getItem('Vouchers', 'sub2', <TagsOutlined />, [
-    getItem('Voucher List', 'vouchers'),
-    getItem('Create Voucher', 'vouchers/create'),
-  ]),
-];
-
 const { Sider } = Layout;
 
 const defaultOpenKeys = ['sub1', 'sub2'];
@@ -56,13 +44,48 @@ const defaultOpenKeys = ['sub1', 'sub2'];
 const Sidebar: React.FC<SidebarProps> = ({ collapsed }) => {
   const navigate = useNavigate();
   const location = useLocation();
-
   const lastPath = location.pathname.split('/').slice(2).join('/');
+  const dispatch = useAppDispatch();
+
+  const [logOut, { isLoading }] = useLogoutMutation();
 
   const onClick: MenuProps['onClick'] = (e) => {
     navigate(`/${e.key}`);
   };
 
+  const handleLogout = async () => {
+    await logOut().unwrap();
+    dispatch(logout());
+  };
+  const items = [
+    getItem('Home', '', <HomeOutlined />),
+    { type: 'divider' } as MenuDividerType,
+    getItem('Refunds', 'refunds', <ReloadOutlined />),
+    { type: 'divider' } as MenuDividerType,
+    getItem('Promotions', 'sub1', <TagOutlined />, [
+      getItem('Promotion List', 'promotions'),
+      getItem('Create Promotion Banner', 'promotions/create-banner'),
+    ]),
+    getItem('Vouchers', 'sub2', <TagsOutlined />, [
+      getItem('Voucher List', 'vouchers'),
+      getItem('Create Voucher', 'vouchers/create'),
+    ]),
+    { type: 'divider' } as MenuDividerType,
+    {
+      key: '',
+      label: (
+        <Button
+          block
+          type="primary"
+          size="large"
+          onClick={handleLogout}
+          loading={isLoading}
+        >
+          Logout
+        </Button>
+      ),
+    },
+  ];
   return (
     <Sider
       trigger={null}

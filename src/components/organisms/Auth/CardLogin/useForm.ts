@@ -18,6 +18,7 @@ function useForm(): FormReturnAuth<LoginProps> {
   const navigate = useNavigate();
   const [login, { isError, isLoading }] = useLoginMutation();
   const [error, setError] = useState<Error>();
+  const dispatch = useAppDispatch();
 
   const handleSubmit = async (values: LoginProps) => {
     try {
@@ -27,6 +28,7 @@ function useForm(): FormReturnAuth<LoginProps> {
       };
 
       await login(body).unwrap();
+      dispatch(setIsLoggedIn(true));
 
       navigate(from, { replace: true });
     } catch (error) {

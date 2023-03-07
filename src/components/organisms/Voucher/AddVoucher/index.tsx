@@ -8,11 +8,7 @@ import style from './index.module.scss';
 import useForms from './useForm';
 import { Form as AForm, message } from 'antd';
 import dayjs from 'dayjs';
-import {
-  useGetVoucherByCodeQuery,
-  useLazyGetVoucherByCodeQuery,
-  useLazyGetVouchersQuery,
-} from '../../../../app/features/marketplace/voucherApiSlice';
+import { useLazyGetVoucherByCodeQuery } from '../../../../app/features/marketplace/voucherApiSlice';
 
 interface AddVoucherProps {
   isEdit?: boolean;
