@@ -8,7 +8,7 @@ const PromotionList: React.FC = () => {
   const navigate = useNavigate();
 
   const handleNavigate = () => {
-    navigate('/promotions/create');
+    navigate('/promotions/create-banner');
   };
 
   return (

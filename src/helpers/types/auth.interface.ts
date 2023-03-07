@@ -28,35 +28,6 @@ export interface FormReturnAuth<T> {
   handleClick?: () => void;
 }
 
-export interface RegisterFirstStepProps {
-  email: string;
-}
-
-export interface RegisterSecondStepProps {
-  username: string;
-  fullname: string;
-  password: string;
-  confirmPassword: string;
-}
-
-export interface IRegisterRequest {
-  email: string;
-  username: string;
-  fullname: string;
-  password: string;
-}
-
-export interface IRegisterResponse {
-  access_token: string;
-}
-
-export interface ErrorRegister {
-  name: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-}
-
 export interface ICheckEmailResponse {
   is_available: boolean;
   email: string;
@@ -70,16 +41,6 @@ export interface ICheckUsernameResponse {
 export interface ICheckUsernameRequest {
   username: string;
 }
-
-export interface RegisterMerchantFirstStepProps {
-  store: string;
-  domain: string;
-}
-
-export interface RegisterMerchantSecondStepProps {
-  address_id: number;
-}
-
 export interface IRefreshResponse {
   access_token: string;
 }

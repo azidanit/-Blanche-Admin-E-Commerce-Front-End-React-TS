@@ -16,6 +16,8 @@ const Dashboard = lazy(() => import('../../pages/Dashboard'));
 const EditPromotion = lazy(() => import('../../pages/Promotion/EditPromotion'));
 const Refund = lazy(() => import('../../pages/Refund'));
 const Messages = lazy(() => import('../../pages/Messages'));
+const Category = lazy(() => import('../../pages/Category'));
+const CategoryList = lazy(() => import('../../pages/CategoryList'));
 
 export const router = createBrowserRouter([
   {
@@ -60,9 +62,20 @@ export const router = createBrowserRouter([
         path: '/refunds',
         element: <Refund />,
       },
+      {
+        path: '/categories',
+        element: <CategoryList />,
+      },
+      {
+        path: '/categories/create',
+        element: <Category />,
+      },
+      {
+        path: '/categories/:id/edit',
+        element: <Category />,
+      },
     ],
   },
-
   {
     path: '/login',
     element: <Login />,

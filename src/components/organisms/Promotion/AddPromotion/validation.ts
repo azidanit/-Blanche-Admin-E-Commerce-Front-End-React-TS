@@ -27,4 +27,10 @@ export const rules = {
       message: 'Promotion description must be at most 75 characters',
     },
   ],
+  avatar: [
+    {
+      required: true,
+      message: 'Please upload promotion banner',
+    },
+  ],
 };

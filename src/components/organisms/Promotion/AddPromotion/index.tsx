@@ -9,21 +9,15 @@ import Upload, {
 } from 'antd/es/upload';
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import {
-  Form,
-  Button,
-  Alert,
-  Input,
-  FormLabel,
-  Card,
-  TextArea,
-} from '../../..';
+import { Form, Button, Input, FormLabel, Card, TextArea } from '../../..';
 import {
   useCreatePromotionMutation,
-  useLazyGetPromotionBannerByIdQuery,
+  useGetPromotionBannerByIdQuery,
   useUpdatePromotionMutation,
 } from '../../../../app/features/marketplace/promotionApiSlice';
+import { capitalizeFirstLetter } from '../../../../helpers/capitalizeFirstLetter';
 import { ICreatePromotionValues } from '../../../../helpers/types/promotion.interface';
+import { IErrorResponse } from '../../../../helpers/types/response.interface';
 import style from './index.module.scss';
 import { rules } from './validation';
 
@@ -47,15 +41,13 @@ const AddPromotion: React.FC<AddPromotionProps> = ({ isEdit = false }) => {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const [createPromotion, { isError, isLoading }] =
-    useCreatePromotionMutation();
+  const [createPromotion, { isLoading }] = useCreatePromotionMutation();
 
   const [imageUrl, setImageUrl] = useState<string>();
 
   const [file, setFile] = useState<File>();
-  const [editPromotion, { isError: isEditError, isLoading: isEditLoading }] =
+  const [editPromotion, { isLoading: isEditLoading }] =
     useUpdatePromotionMutation();
-  const [error, setError] = useState<Error>();
 
   const handleUpload: UploadProps['onChange'] = (
     info: UploadChangeParam<UploadFile>,
@@ -72,7 +64,8 @@ const AddPromotion: React.FC<AddPromotionProps> = ({ isEdit = false }) => {
       );
       navigate('/promotions');
     } catch (error) {
-      setError(error as Error);
+      const err = error as IErrorResponse;
+      message.error(capitalizeFirstLetter(err.message));
     }
   };
 
@@ -101,7 +94,8 @@ const AddPromotion: React.FC<AddPromotionProps> = ({ isEdit = false }) => {
       );
       navigate('/promotions');
     } catch (error) {
-      setError(error as Error);
+      const err = error as IErrorResponse;
+      message.error(capitalizeFirstLetter(err.message));
     }
   };
 
@@ -126,43 +120,20 @@ const AddPromotion: React.FC<AddPromotionProps> = ({ isEdit = false }) => {
   );
   const [form] = useForm();
 
-  const [getPromotionByID, { isLoading: isLoadingVoucher }] =
-    useLazyGetPromotionBannerByIdQuery();
-
-  const fetchDetailPromotion = async () => {
-    if (!id) {
-      return;
-    }
-
-    try {
-      const promotion = await getPromotionByID(Number(id)).unwrap();
-
-      if (!promotion) {
-        return;
-      }
-
-      form.setFieldsValue({
-        name: promotion.name,
-        description: promotion.description,
-        image_url: promotion.image_url,
-      });
-
-      setImageUrl(promotion.image_url);
-    } catch (err) {
-      const error = err as Error;
-      message.error(error.message);
-    }
-  };
+  const { data: promotion } = useGetPromotionBannerByIdQuery(Number(id), {
+    skip: !id,
+  });
 
   useEffect(() => {
-    if (!isEdit || !id) {
-      return;
-    }
+    if (!promotion) return;
+    form.setFieldsValue({
+      name: promotion.name,
+      description: promotion.description,
+      image_url: promotion.image_url,
+    });
 
-    if (id) {
-      fetchDetailPromotion();
-    }
-  }, [isEdit]);
+    setImageUrl(promotion.image_url);
+  }, [promotion]);
 
   return (
     <Form className={style.form__promotion} onFinish={handleSubmit} form={form}>
@@ -191,13 +162,13 @@ const AddPromotion: React.FC<AddPromotionProps> = ({ isEdit = false }) => {
             <TextArea />
           </FormLabel>
           <FormLabel
+            name="avatar"
             className={style.form__item}
-            label="
-            Image Banner"
+            label="Image Banner"
+            rules={rules.avatar}
           >
             {' '}
             <Upload
-              name="avatar"
               listType="picture-card"
               className="upload__image"
               showUploadList={false}
@@ -219,12 +190,6 @@ const AddPromotion: React.FC<AddPromotionProps> = ({ isEdit = false }) => {
           </FormLabel>
         </div>
       </Card>
-
-      {isError ||
-        (isEditError && (
-          <Alert message={error?.message} type="error" showIcon closable />
-        ))}
-
       <div className={style.form__promotion__actions}>
         <Button
           type="primary"
