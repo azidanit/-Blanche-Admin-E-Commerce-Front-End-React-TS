@@ -4,9 +4,6 @@ import {
   ICheckUsernameRequest,
   ILoginRequest,
   ILoginResponse,
-  RegisterFirstStepProps,
-  IRegisterResponse,
-  IRegisterRequest,
   IRefreshResponse,
   IVerifyCodeRequest,
   IVerifyCodeResponse,
@@ -20,35 +17,6 @@ const authApi = apiSlice.injectEndpoints({
     login: build.mutation<ILoginResponse, ILoginRequest>({
       query: (body) => ({ url: '/login/admin', method: 'POST', body }),
       transformResponse: (response: { data: ILoginResponse }) => response.data,
-      transformErrorResponse: (response) => response.data,
-    }),
-    checkEmail: build.mutation<ICheckEmailResponse, RegisterFirstStepProps>({
-      query: (body) => ({ url: '/register/check-email', method: 'POST', body }),
-      transformResponse: (response: { data: ICheckEmailResponse }) =>
-        response.data,
-      transformErrorResponse: (response) => response.data,
-    }),
-    checkUsername: build.mutation<
-      ICheckUsernameResponse,
-      ICheckUsernameRequest
-    >({
-      query: (body) => ({
-        url: '/register/check-username',
-        method: 'POST',
-        body,
-      }),
-      transformResponse: (response: { data: ICheckUsernameResponse }) =>
-        response.data,
-      transformErrorResponse: (response) => response.data,
-    }),
-    register: build.mutation<IRegisterResponse, IRegisterRequest>({
-      query: (body) => ({
-        url: '/register',
-        method: 'POST',
-        body,
-      }),
-      transformResponse: (response: { data: IRegisterResponse }) =>
-        response.data,
       transformErrorResponse: (response) => response.data,
     }),
     logout: build.mutation<void, void>({
@@ -101,9 +69,6 @@ const authApi = apiSlice.injectEndpoints({
 
 export const {
   useLoginMutation,
-  useCheckEmailMutation,
-  useCheckUsernameMutation,
-  useRegisterMutation,
   useLogoutMutation,
   useLazyRefreshQuery,
   useRefreshQuery,

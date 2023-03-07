@@ -10,8 +10,6 @@ import {
 import style from './index.module.scss';
 import useForm from './useForm';
 import { rules } from './validation';
-import { Link } from 'react-router-dom';
-import CardLoginBottom from './CardLoginBottom';
 import { Form } from '../../../molecules';
 import { capitalizeFirstLetter } from '../../../../helpers/capitalizeFirstLetter';
 
@@ -21,7 +19,6 @@ const CardLogin: React.FC = () => {
     <Card className={style.card__login}>
       <div className={style.card__login__title}>
         <h6>Login</h6>
-        <Link to="/register">Register</Link>
       </div>
       <Form
         name="basic"
@@ -56,8 +53,6 @@ const CardLogin: React.FC = () => {
           Login
         </Button>
       </Form>
-      <Link to="/">Forgot Password?</Link>
-      <CardLoginBottom />
     </Card>
   );
 };

@@ -1,6 +1,7 @@
 import {
   HomeOutlined,
   ReloadOutlined,
+  SmileOutlined,
   TagOutlined,
   TagsOutlined,
 } from '@ant-design/icons';
@@ -39,12 +40,12 @@ function getItem(
 
 const { Sider } = Layout;
 
-const defaultOpenKeys = ['sub1', 'sub2'];
+const defaultOpenKeys = ['sub1', 'sub2', 'sub3'];
 
 const Sidebar: React.FC<SidebarProps> = ({ collapsed }) => {
   const navigate = useNavigate();
   const location = useLocation();
-  const lastPath = location.pathname.split('/').slice(2).join('/');
+  const lastPath = location.pathname.split('/').slice(1).join('/');
   const dispatch = useAppDispatch();
 
   const [logOut, { isLoading }] = useLogoutMutation();
@@ -71,6 +72,11 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed }) => {
       getItem('Create Voucher', 'vouchers/create'),
     ]),
     { type: 'divider' } as MenuDividerType,
+    getItem('Categories', 'sub3', <SmileOutlined />, [
+      getItem('Category List', 'categories'),
+      getItem('Create Category', 'categories/create'),
+    ]),
+    { type: 'divider' } as MenuDividerType,
     {
       key: '',
       label: (
@@ -86,6 +92,7 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed }) => {
       ),
     },
   ];
+
   return (
     <Sider
       trigger={null}
@@ -104,7 +111,7 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed }) => {
         items={items}
         mode="inline"
         defaultOpenKeys={defaultOpenKeys}
-        defaultSelectedKeys={[lastPath || '']}
+        selectedKeys={[lastPath || '']}
         onClick={onClick}
       />
     </Sider>
