@@ -1,3 +1,26 @@
+# About This Project
+
+This Front-End project is an E-Commerce website named "Blanche" created using React Typescript along with Redux toolkit and ant design.
+
+#### Developer Who played an important role in this "FE" Project are:
+
+- Ryan Daniel Pangaribuanel Pangaribua <[ryndnlp](https://github.com/ryndnlp)>
+- Giwang Dwi Kintan  <[giwangdk](https://github.com/giwangdk)>
+
+#### Supported by other "BE" Developer:
+
+- Achmad Zidan Akbar <[azidanit](https://github.com/azidanit)>
+- Kristian Wilianto <[zogojogo](https://github.com/zogojogo)>
+- William Wibowo Ciptono <[lgamal](https://github.com/lgamal)>
+
+#### SRE:
+
+- Kristian Willianto 
+
+#### Our Team Lead:
+
+- William Wibowo Ciptono
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
