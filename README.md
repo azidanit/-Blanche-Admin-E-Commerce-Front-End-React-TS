@@ -4,7 +4,7 @@ This Front-End project is an E-Commerce website named "Blanche" created using Re
 
 #### Developer Who played an important role in this "FE" Project are:
 
-- Ryan Daniel Pangaribuanel Pangaribua <[ryndnlp](https://github.com/ryndnlp)>
+- Ryan Daniel Pangaribuan <[ryndnlp](https://github.com/ryndnlp)>
 - Giwang Dwi Kintan  <[giwangdk](https://github.com/giwangdk)>
 
 #### Supported by other "BE" Developer:
